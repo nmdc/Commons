@@ -1,0 +1,42 @@
+<dataConfig>
+    <dataSource name="streamsrc" type="FileDataSource" encoding="UTF-8" />
+    
+    <document>
+        <!--
+                         Parses standard Solr update XML passed as stream from HTTP post.
+            Strips empty nodes with dih.xsl, then applies transforms.
+        -->
+
+  	<entity name="difFiles"
+          processor="FileListEntityProcessor"
+          fileName="^.*\.xml$"
+          rootEntity="false"
+          baseDir="/var/solr/data/nmdc1/dataimport"
+	>
+
+        <entity
+            name="page"
+            processor="XPathEntityProcessor"
+	    datasource="difFiles"
+            stream="true"
+            forEach="/meta"
+	    url="${difFiles.fileAbsolutePath}"
+            transformer="RegexTransformer,DateFormatTransformer"
+        >
+            <field column="Entry_ID"        xpath="/meta/nmdc-metadata/DIF/Entry_ID" />
+            <field column="Entry_Title"     xpath="/meta/nmdc-metadata/DIF/Entry_Title" />
+            <field column="Start_Date"      xpath="/meta/nmdc-metadata/DIF/Temporal_Coverage/Start_Date" dateTimeFormat="yyyy-MM-dd'T'hh:mm:ss'Z'" />
+            <field column="Stop_Date"       xpath="/meta/nmdc-metadata/DIF/Temporal_Coverage/Stop_Date" dateTimeFormat="yyyy-MM-dd'T'hh:mm:ss'Z'" />
+            <field column="Parameter"       xpath="/meta/nmdc-metadata/DIF/Parameters/Term" />
+            <field column="Provider"        xpath="/meta/nmdc-metadata/DIF/Data_Center/Data_Center_Name/Short_Name" />
+            <field column="Data_URL"        xpath="/meta/nmdc-metadata/DIF/Related_URL/URL" />
+            <field column="Data_Summary"    xpath="/meta/nmdc-metadata/DIF/Summary" />
+
+
+
+            <field column="location_rpt" xpath="/meta/parameters/polygon" />
+            <field column="location_rpt" xpath="/meta/parameters/point" />
+</entity> 
+	</entity>       
+    </document>
+</dataConfig>

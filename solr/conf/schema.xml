@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema name="example" version="1.5">
+    <fields>
+        <field name="text" type="text_general" indexed="false" stored="true" multiValued="true"/>
+        <field name="_version_" type="long" indexed="true" stored="true"/>
+        
+        <!-- Posts -->
+        <field name="Entry_ID" type="string" indexed="true" stored="true"/>
+        <field name="Entry_Title" type="string" indexed="true" stored="true"/>
+	<field name="Data_Set_Citation" type="text_general" indexed="true" stored="true"/>
+        <field name="Start_Date" type="date" indexed="true" stored="true"/>
+        <field name="Stop_Date" type="date" indexed="true" stored="true"/>
+        <field name="Parameter" type="string" indexed="true" stored="true" multiValued="true"/>
+        <field name="Provider" type="string" indexed="true" stored="true" multiValued="true"/>
+        <field name="Data_URL" type="string" indexed="false" stored="true"/>
+        <field name="Data_Summary" type="text_general" indexed="true" stored="true"/>
+
+	<field name="location_rpt" type="location_rpt" indexed="true" stored="true" />
+
+        <field name="acceptedAnswerId" type="int" indexed="true" stored="true"/>
+
+
+    <field name="bboxText" type="text_general" indexed="true" stored="false" multiValued="true"/>
+    </fields>
+    
+
+    <types>
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+        <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+        <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+    	<fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+        <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+
+        <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+            <analyzer type="index">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+            <analyzer type="query">
+                <tokenizer class="solr.StandardTokenizerFactory"/>
+                <filter class="solr.LowerCaseFilterFactory"/>
+            </analyzer>
+        </fieldType>
+
+        <fieldType name="location_rpt" class="solr.SpatialRecursivePrefixTreeFieldType"
+            spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory"
+            geo="true" distErrPct="0.025" maxDistErr="0.001" distanceUnits="degrees" />
+        <!-- Spatial rectangle (bounding box) field. It supports most spatial predicates, and has
+                      special relevancy modes: score=overlapRatio|area|area2D (local-param to the query).  DocValues is recommended for
+         relevancy. -->
+        <fieldType name="bbox" class="solr.BBoxField"
+               geo="true" distanceUnits="kilometers" numberType="_bbox_coord" />
+        <fieldType name="_bbox_coord" class="solr.TrieDoubleField" precisionStep="8" docValues="true" stored="false"/>
+        
+
+    </types>
+    
+    <uniqueKey>Entry_ID</uniqueKey>
+    
+</schema>
+
