@@ -808,6 +808,13 @@
       <str name="config">dih-config.xml</str>
     </lst>
   </requestHandler>
+
+  <requestHandler name="/dataimportsan" class="solr.DataImportHandler">
+    <lst name="defaults">
+      <str name="config">dih-san-config.xml</str>
+    </lst>
+  </requestHandler>
+  
   <!-- SearchHandler
 
        http://wiki.apache.org/solr/SearchHandler

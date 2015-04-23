@@ -1,26 +1,26 @@
 <dataConfig>
     <dataSource name="streamsrc" type="FileDataSource" encoding="UTF-8" />
-    
+
     <document>
         <!--
-                         Parses standard Solr update XML passed as stream from HTTP post.
+                                      Parses standard Solr update XML passed as stream from HTTP post.
             Strips empty nodes with dih.xsl, then applies transforms.
         -->
 
-  	<entity name="difFiles"
+        <entity name="difFiles"
           processor="FileListEntityProcessor"
           fileName="^.*\.xml$"
           rootEntity="false"
-          baseDir="/var/solr/data/nmdc/dataimport"
-	>
+          baseDir="/san/metadata/transformed/nmdc"
+        >
 
         <entity
             name="page"
             processor="XPathEntityProcessor"
-	    datasource="difFiles"
+            datasource="difFiles"
             stream="true"
             forEach="/meta"
-	    url="${difFiles.fileAbsolutePath}"
+            url="${difFiles.fileAbsolutePath}"
             transformer="RegexTransformer,DateFormatTransformer"
         >
             <field column="Entry_ID"        xpath="/meta/nmdc-metadata/DIF/Entry_ID" />
@@ -36,7 +36,7 @@
 
             <field column="location_rpt" xpath="/meta/parameters/polygon" />
             <field column="location_rpt" xpath="/meta/parameters/point" />
-</entity> 
-	</entity>       
+</entity>
+        </entity>
     </document>
 </dataConfig>
