@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema name="example" version="1.5">
     <fields>
-        <field name="text" type="text_general" indexed="false" stored="true" multiValued="true"/>
+        <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
         <field name="_version_" type="long" indexed="true" stored="true"/>
         
         <!-- Posts -->
         <field name="Entry_ID" type="string" indexed="true" stored="true"/>
-        <field name="Entry_Title" type="string" indexed="true" stored="true"/>
+        <field name="Entry_Title" type="text_general" indexed="true" stored="true"/>
 	<field name="Data_Set_Citation" type="text_general" indexed="true" stored="true"/>
         <field name="Start_Date" type="date" indexed="true" stored="true"/>
         <field name="Stop_Date" type="date" indexed="true" stored="true"/>
-        <field name="Parameter" type="string" indexed="true" stored="true" multiValued="true"/>
-        <field name="Provider" type="string" indexed="true" stored="true" multiValued="true"/>
+        <field name="Parameter" type="text_general" indexed="true" stored="true" multiValued="true"/>
+        <field name="Provider" type="text_general" indexed="true" stored="true" multiValued="true"/>
         <field name="Data_URL" type="string" indexed="false" stored="true"/>
         <field name="Data_Summary" type="text_general" indexed="true" stored="true"/>
 
@@ -20,7 +20,16 @@
         <field name="acceptedAnswerId" type="int" indexed="true" stored="true"/>
 
 
-    <field name="bboxText" type="text_general" indexed="true" stored="false" multiValued="true"/>
+        <field name="bboxText" type="text_general" indexed="true" stored="false" multiValued="true"/>
+
+
+       <copyField source="Entry_Title" dest="text"/>
+       <copyField source="Data_Set_Citation" dest="text"/>
+       <copyField source="Parameter" dest="text"/>
+       <copyField source="Provider" dest="text"/>
+       <copyField source="Data_Summary" dest="text"/>
+
+
     </fields>
     
 
