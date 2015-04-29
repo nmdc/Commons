@@ -11,7 +11,7 @@
           processor="FileListEntityProcessor"
           fileName="^.*\.xml$"
           rootEntity="false"
-          baseDir="/san/metadata/transformed/nmdc"
+          baseDir="/san/metadata-dev/transformed/nmdc"
         >
 
         <entity
