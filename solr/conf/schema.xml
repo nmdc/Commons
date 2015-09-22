@@ -10,10 +10,16 @@
         <field name="Data_Set_Citation" type="string" indexed="true" stored="true"/>
         <field name="Start_Date" type="date" indexed="true" stored="true"/>
         <field name="Stop_Date" type="date" indexed="true" stored="true"/>
-        <field name="Parameter" type="string" indexed="true" stored="true" multiValued="true"/>
+        <field name="Parameter" type="path" indexed="true" stored="true" multiValued="true"/>
         <field name="Provider" type="string" indexed="true" stored="true" multiValued="true"/>
-        <field name="Data_URL" type="string" indexed="false" stored="true"/>
+        <field name="Data_URL" type="string" indexed="false" stored="true" multiValued="true"/>
+        <field name="Data_URL_Type" type="string" indexed="false" stored="true" multiValued="true"/>
+        <field name="Data_URL_Subtype" type="string" indexed="false" stored="true" multiValued="true"/>
         <field name="Data_Summary" type="string" indexed="true" stored="true"/>
+
+        <field name="OriginatingCenter" type="string" indexed="true" stored="true"/>
+        <field name="PersonFirstName" type="string" indexed="true" stored="true" multiValued="true"/>
+        <field name="PersonLastName" type="string" indexed="true" stored="true" multiValued="true"/>
 
         <field name="location_rpt" type="location_rpt" indexed="true" stored="true" />
 
@@ -21,15 +27,29 @@
 
 
     <field name="bboxText" type="text_general" indexed="true" stored="false" multiValued="true"/>
+
     <copyField source="Entry_Title" dest="text"/>
     <copyField source="Data_Set_Citation" dest="text"/>
     <copyField source="Parameter" dest="text"/>
     <copyField source="Provider" dest="text"/>
+    <copyField source="OriginatingCenter" dest="text"/>
     <copyField source="Data_Summary" dest="text"/>
+
     </fields>
 
+
     <types>
-        <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+        <fieldType name="path" class="solr.TextField">
+                <analyzer type="index">
+                        <tokenizer class="solr.PathHierarchyTokenizerFactory" delimiter=">" />
+                </analyzer>
+                <analyzer type="query">
+                        <tokenizer class="solr.KeywordTokenizerFactory" />
+                </analyzer>
+        </fieldType>
+
+        <fieldType name="string" class="solr.StrField" sortMissingLast="true">
+</fieldType>
         <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
         <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
         <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
@@ -47,7 +67,7 @@
             </analyzer>
         </fieldType>
 
-        <fieldType name="location_rpt" class="solr.SpatialRecursivePrefixTreeFieldType"
+		<fieldType name="location_rpt" class="solr.SpatialRecursivePrefixTreeFieldType"
             spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory"
             geo="true" distErrPct="0.025" maxDistErr="0.001" distanceUnits="degrees" />
         <!-- Spatial rectangle (bounding box) field. It supports most spatial predicates, and has
@@ -56,6 +76,8 @@
         <fieldType name="bbox" class="solr.BBoxField"
                geo="true" distanceUnits="kilometers" numberType="_bbox_coord" />
         <fieldType name="_bbox_coord" class="solr.TrieDoubleField" precisionStep="8" docValues="true" stored="false"/>
+
+
     </types>
 
     <uniqueKey>Entry_ID</uniqueKey>

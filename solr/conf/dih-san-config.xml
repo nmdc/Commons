@@ -11,7 +11,7 @@
           processor="FileListEntityProcessor"
           fileName="^.*\.xml$"
           rootEntity="false"
-          baseDir="/san/metadata-dev/transformed/nmdc"
+          baseDir="/san/metadata-test/transformed/nmdc"
         >
 
         <entity
@@ -25,14 +25,19 @@
         >
             <field column="Entry_ID"        xpath="/meta/nmdc-metadata/DIF/Entry_ID" />
             <field column="Entry_Title"     xpath="/meta/nmdc-metadata/DIF/Entry_Title" />
-            <field column="Start_Date"      xpath="/meta/nmdc-metadata/DIF/Temporal_Coverage/Start_Date" dateTimeFormat="yyyy-MM-dd'T'hh:mm:ss'Z'" />
-            <field column="Stop_Date"       xpath="/meta/nmdc-metadata/DIF/Temporal_Coverage/Stop_Date" dateTimeFormat="yyyy-MM-dd'T'hh:mm:ss'Z'" />
-            <field column="Parameter"       xpath="/meta/nmdc-metadata/DIF/Parameters/Term" />
-            <field column="Provider"        xpath="/meta/nmdc-metadata/DIF/Data_Center/Data_Center_Name/Short_Name" />
+            <field column="Start_Date"      xpath="/meta/nmdc-metadata/DIF/Temporal_Coverage/Start_Date"  dateTimeFormat="yyyy-MM-dd" />
+            <field column="Stop_Date"       xpath="/meta/nmdc-metadata/DIF/Temporal_Coverage/Stop_Date"  dateTimeFormat="yyyy-MM-dd" />
+            <!-- field column="Parameter"       xpath="/meta/nmdc-metadata/DIF/Parameters/Term" / -->
+            <field column="Parameter"       xpath="/meta/parameters/pDefs/pDef" />
+<!--            <field column="Provider"        xpath="/meta/nmdc-metadata/DIF/Data_Center/Data_Center_Name/Short_Name" /> -->
+            <field column="Provider"        xpath="/meta/nmdc-metadata/DIF/Originating_Center" />
             <field column="Data_URL"        xpath="/meta/nmdc-metadata/DIF/Related_URL/URL" />
+            <field column="Data_URL_Type"        xpath="/meta/nmdc-metadata/DIF/Related_URL/URL_Content_Type/Type" />
+            <field column="Data_URL_Subtype"        xpath="/meta/nmdc-metadata/DIF/Related_URL/URL_Content_Type/Subtype" />
             <field column="Data_Summary"    xpath="/meta/nmdc-metadata/DIF/Summary" />
 
-
+            <field column="PersonFirstName" xpath="/meta/nmdc-metadata/DIF/Data_Center/Personnel/First_Name" />
+            <field column="PersonLastName" xpath="/meta/nmdc-metadata/DIF/Data_Center/Personnel/Last_Name" />
 
             <field column="location_rpt" xpath="/meta/parameters/polygon" />
             <field column="location_rpt" xpath="/meta/parameters/point" />
